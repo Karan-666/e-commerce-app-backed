@@ -74,12 +74,32 @@ async function login(req, res) {
       });
     }
 
-    return res.status(200).json({ message: "User authenticated successfully. Ready for token generation." });
+    //////// JWT Token generation //////////////
+
+    //Define a secret key
+    const secretKey = "supersecretkey";
+
+    // Generating the JWT Token
+    let token = jwt.sign(
+      { id: data._id }, // Payload: The data we want to store (user's unique MongoDB ID).
+      secretKey, // Secret: Used to sign and verify the token's integrity.
+      { expiresIn: "1h" } // Options: Token will automatically expire after 1 hour.
+    );
+
+    // Sending success response
+    return res.status(200).json({
+      user: {
+        email: data.email,
+        user_name: data.user_name,
+      },
+      accessToken: token, // This is the JWT the client will use for protected routes.
+      message: "Login successful and token generated.",
+    });
 
   } catch (err) {
     // handling server side error
     return res.status(500).json({
-      message: "Error during user registration.",
+      message: "Error during user login.",
     });
   }
 }
