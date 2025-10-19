@@ -6,6 +6,7 @@ const app = express();
 const mongoose = require("mongoose");
 const productRoutes = require("./routes/product.route");
 const userRoutes = require("./routes/user.route");
+const cartRoutes = require("./routes/cart.route");
 
 // karankumar00619_db_user
 // HfhWCY1uduB7JENN
@@ -33,6 +34,7 @@ mongoose
     productRoutes(app);
     //same for user
     userRoutes(app);
+    cartRoutes(app);
 
     //Start the server ONLY if the database connection is successful.
     app.listen(port, () => {
